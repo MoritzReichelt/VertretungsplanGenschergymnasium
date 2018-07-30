@@ -5,12 +5,56 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/button"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:text="@string/about_name"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="321dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/viewLicense"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-137dp"
+        android:text="@string/about_license"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/viewLicense"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="137dp"
+        android:text="@string/about_button_see_license"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="@string/about_code"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/viewCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Moritz Reichelt 2018"
-        android:layout_alignTop="@id/name"/>
-
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:text="@string/about_button_see_code"
+        android:textAllCaps="false" />
 
 </RelativeLayout>
 

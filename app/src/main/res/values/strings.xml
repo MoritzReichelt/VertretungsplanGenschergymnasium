@@ -12,6 +12,11 @@
     <string name="about_description2">Erstellt im Rahmen meiner Facharbeit</string>
     <string name="pref_url_default">http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml</string>
     <string name="pref_notifications_enabled_key">pref_notifications_enabled</string>
+    <string name="about_name">Erstellt von Moritz Reichelt 2018 im Rahmen meiner Facharbeit</string>
+    <string name="about_license">Diese App ist unter der GNU General Public License 3 lizensiert</string>
+    <string name="about_button_see_license">Lizenz ansehen</string>
+    <string name="about_code">Der Quellcode ist frei verfügbar und kann auf GitHub eingesehen werden</string>
+    <string name="about_button_see_code">Quellcode ansehen</string>
 
     <!-- Einstellungen - Arrays -->
 
