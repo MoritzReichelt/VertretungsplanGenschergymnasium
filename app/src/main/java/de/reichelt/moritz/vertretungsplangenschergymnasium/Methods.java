@@ -19,7 +19,7 @@ import static android.content.ContentValues.TAG;
 
 class Methods {
 
-    private static String getCurrentDateTime() {
+    public static String getCurrentDateTime() {
         String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
         currentDateTime = currentDateTime.replaceAll("\\s+", "_");
         currentDateTime = currentDateTime.replaceAll(":", "_");
