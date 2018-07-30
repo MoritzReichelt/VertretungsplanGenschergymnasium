@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
-public class Job {
+class Job {
 
     private static final int JOB_ID = 14062001;
     private static JobScheduler mScheduler;

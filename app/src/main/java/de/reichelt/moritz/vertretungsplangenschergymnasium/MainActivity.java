@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!isConnectedToNetwork()) {
+                if (isDeviceOffline()) {
                     webSettings.setCacheMode(WebSettings.LOAD_CACHE_ONLY);
                     webView.loadUrl(url);
                     swipeRefreshLayout.setRefreshing(false);
@@ -120,14 +120,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isConnectedToNetwork() {
+    private boolean isDeviceOffline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
         if (connectivityManager != null) {
             networkInfo = connectivityManager.getActiveNetworkInfo();
         }
 
-        return networkInfo != null && networkInfo.isConnected();
+        return networkInfo == null || !networkInfo.isConnected();
     }
 }
 

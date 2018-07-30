@@ -17,6 +17,7 @@
     <string name="about_button_see_license">Lizenz ansehen</string>
     <string name="about_code">Der Quellcode ist frei verfügbar und kann auf GitHub eingesehen werden</string>
     <string name="about_button_see_code">Quellcode ansehen</string>
+    <string name="menu_reset_settings">Einstellungen zurücksetzen</string>
 
     <!-- Einstellungen - Arrays -->
 

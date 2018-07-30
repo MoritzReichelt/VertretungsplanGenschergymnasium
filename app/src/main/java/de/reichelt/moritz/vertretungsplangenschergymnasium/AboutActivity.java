@@ -7,10 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.util.Date;
-
 public class AboutActivity extends AppCompatActivity {
 
 

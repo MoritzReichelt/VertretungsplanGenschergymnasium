@@ -15,36 +15,31 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
-
 import static android.content.ContentValues.TAG;
 
-public class Methods {
+class Methods {
 
-    SharedPreferences preferences;
-
-    public static String getCurrentDateTime() {
+    private static String getCurrentDateTime() {
         String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
         currentDateTime = currentDateTime.replaceAll("\\s+", "_");
         currentDateTime = currentDateTime.replaceAll(":", "_");
         return currentDateTime;
     }
 
-    public static File[] reduceDirContent(File[] files, int filesToBeLeft) {
+    public static void reduceDirContent(File[] files, int filesToBeLeft) {
         Log.i(TAG, "The following files are inside the array(" + files.length + "): " + Arrays.toString(files));
 
         int filesToDelete = files.length - filesToBeLeft;
         if (filesToDelete > 0) {
             for (int i = 0; i < filesToDelete; i++) {
                 File file = files[i];
-                deleteFile(file);
+                boolean success = deleteFile(file);
+                Log.i(TAG,"Deleted file has value " + success);
             }
-            return files;
-        } else {
-            return null;
         }
     }
 
-    private static void deleteFile(File file) {
+    private static boolean deleteFile(File file) {
         File[] children = file.listFiles();
         if (children != null) {
             for (File child : children) {
@@ -52,8 +47,7 @@ public class Methods {
             }
         }
         Log.i(TAG, "Deleted file '" + file + "'");
-        file.delete();
-
+        return file.delete();
     }
 
     // SharedPrefsAuthentication Methoden

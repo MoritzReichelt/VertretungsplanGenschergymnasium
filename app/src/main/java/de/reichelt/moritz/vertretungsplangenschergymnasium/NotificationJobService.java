@@ -35,7 +35,7 @@ import static android.content.ContentValues.TAG;
 public class NotificationJobService extends JobService {
 
     private File file1, file2;
-    private boolean errorOccurred;
+    private boolean errorOccurred, success;
     private String path, fileContentTemp = null;
 
     /**
@@ -47,7 +47,6 @@ public class NotificationJobService extends JobService {
      */
     @Override
     public boolean onStartJob(final JobParameters jobParameters) {
-        //Logging.start(getPackageName());
 
         Log.i(TAG, "Job fired!");
 
@@ -59,7 +58,7 @@ public class NotificationJobService extends JobService {
             @Override
             public void run() {
 
-                if (canPing("8.8.8.8")) {
+                if (canPing()) {
 
                     path = "/storage/emulated/0/Android/data/" + getPackageName() + "/files/plans/";
 
@@ -175,16 +174,16 @@ public class NotificationJobService extends JobService {
                             //Lösche die ältere Datei
 
                             if (FileUtils.isFileNewer(file1, file2)) {
-                                deleteFile(file2);
+                                success = deleteFile(file2);
                             } else {
-                                deleteFile(file1);
+                                success = deleteFile(file1);
                             }
                         }
                         //Kein neuer Vertretungsplan verfügbar
                         else {
                             //sendNotifyWhenNoNewPlan();
                             Log.i(TAG, "No new plan!");
-                            deleteFile(file2);
+                            success = deleteFile(file2);
                         }
                     }
                     Log.i(TAG, "Calling jobFinished, no reschedule needed...");
@@ -226,6 +225,7 @@ public class NotificationJobService extends JobService {
      */
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
+        Log.i(TAG, "Deleted file has value" + success);
         Log.i(TAG, "Job stopped!");
         return errorOccurred;
     }
@@ -334,7 +334,7 @@ public class NotificationJobService extends JobService {
         for (File anAllFilesArray : allFilesArray) {
             if (!isValidFile(anAllFilesArray)) {
                 invalidFileFound = true;
-                deleteFile(anAllFilesArray);
+                success = deleteFile(anAllFilesArray);
                 Log.i(TAG, "Deleted file that is not a regular plan '" + anAllFilesArray + "'");
             }
         }
@@ -528,17 +528,6 @@ public class NotificationJobService extends JobService {
         return fileDateTempBoth[0];
     }
 
-    private String getRightDateFromFile(String fileContentTemp) {
-        String fileContent1[] = fileContentTemp.split("<titel>");
-        String fileDateTemp = fileContent1[1];
-        String fileContent2[] = fileDateTemp.split(" </titel>");
-        String fileDate = fileContent2[0];
-
-        String fileDateTempBoth[] = fileDate.split(", ");
-
-        return fileDateTempBoth[1];
-    }
-
     private String getFileContentTemp(File file) {
         fileContentTemp = getStringFromFile(file);
         return fileContentTemp;
@@ -557,11 +546,11 @@ public class NotificationJobService extends JobService {
         return isValid;
     }
 
-    private boolean canPing(String ipAddress) {
+    private boolean canPing() {
         Runtime runtime = Runtime.getRuntime();
         try {
-            Log.i(TAG, "Trying to ping IP address " + ipAddress);
-            Process process = runtime.exec("/system/bin/ping -c 1 " + ipAddress);
+            Log.i(TAG, "Trying to ping IP address " + "8.8.8.8");
+            Process process = runtime.exec("/system/bin/ping -c 1 " + "8.8.8.8");
             int exitValue = process.waitFor();
             Log.i(TAG, "Exit value: " + exitValue);
             if (exitValue == 0) {
@@ -573,7 +562,7 @@ public class NotificationJobService extends JobService {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "Failed to ping IP address " + ipAddress);
+        Log.e(TAG, "Failed to ping IP address " + "8.8.8.8");
         return false;
     }
 
@@ -590,18 +579,18 @@ public class NotificationJobService extends JobService {
         Log.i(TAG, "Media Scanner fired up!");
     }
 
-    private void deleteFile(File file) {
+    private boolean deleteFile(File file) {
         File[] children = file.listFiles();
         if (children != null) {
             for (File child : children) {
-                deleteFile(child);
+                success = deleteFile(child);
             }
         }
         Log.i(TAG, "Deleted file '" + file + "'");
-        file.delete();
+        boolean success = file.delete();
         startMediaScanner();
+        return success;
     }
-
 }
 
 
