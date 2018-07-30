@@ -19,8 +19,8 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Button seeLicense = findViewById(R.id.viewLicense);
-        seeLicense.setOnClickListener(new View.OnClickListener() {
+        Button viewLicense = findViewById(R.id.viewLicense);
+        viewLicense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent viewLicense = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.gnu.org/licenses/gpl-3.0.txt"));
