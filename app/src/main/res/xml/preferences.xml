@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Anzeige">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_stretch"
+            android:summary="Streckt den Vertretungsplan auf den gesamten Bildschirm (vor allem für größere Displays oder Querformat geeignet)"
+            android:title="Auf gesamten Bildschirm strecken" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Authentifizierung">
+        <EditTextPreference
+            android:defaultValue="http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml"
+            android:key="pref_url"
+            android:selectAllOnFocus="true"
+            android:summary="Adresse, unter der sich der Vertretungsplan befindet"
+            android:title="URL" />
+        <EditTextPreference
+            android:defaultValue="Genscher"
+            android:key="pref_username"
+            android:selectAllOnFocus="true"
+            android:title="Benutzername" />
+        <EditTextPreference
+            android:defaultValue="Schule"
+            android:inputType="textPassword"
+            android:key="pref_password"
+            android:selectAllOnFocus="true"
+            android:title="Passwort" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Benachrichtigungen">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_notifications_enabled_key"
+            android:title="Benachrichtigung bei neuem Vertretungsplan" />
+        <ListPreference
+            android:defaultValue="60"
+            android:dependency="@string/pref_notifications_enabled_key"
+            android:entries="@array/pref_sync_frequency_entries"
+            android:entryValues="@array/pref_sync_frequency_values"
+            android:key="pref_sync_interval"
+            android:title="Aktualisierungsintervall festlegen" />
+        <ListPreference
+            android:defaultValue="1"
+            android:dependency="@string/pref_notifications_enabled_key"
+            android:entries="@array/pref_network_type_entries"
+            android:entryValues="@array/pref_network_type_values"
+            android:key="pref_network_type"
+            android:title="Netzwerk festlegen" />
+    </PreferenceCategory>
+</PreferenceScreen>

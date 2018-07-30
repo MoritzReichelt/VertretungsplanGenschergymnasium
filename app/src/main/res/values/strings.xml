@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Vertretungsplan Genscher</string>
+    <string name="settings">Einstellungen</string>
+    <string name="about">Über diese App</string>
+    <string name="notification_preference_category">Benachrichtigung</string>
+    <string name="notification_preference">Benachrichtigung</string>
+    <string name="set_url_preference">URL</string>
+    <string name="set_username_preference">Benutzername</string>
+    <string name="set_password_preference">Passwort</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="about_description">[Copyright] 2018 Moritz Reichelt</string>
+    <string name="about_description2">Erstellt im Rahmen meiner Facharbeit</string>
+    <string name="pref_url_default">http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml</string>
+    <string name="pref_notifications_enabled_key">pref_notifications_enabled</string>
+
+    <!-- Einstellungen - Arrays -->
+
+    <string-array name="pref_sync_frequency_entries">
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+        <item>3 Stunden</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+    </string-array>
+
+    <string-array name="pref_network_type_entries">
+        <item>Egal</item>
+        <item>Nur über WLAN</item>
+    </string-array>
+
+    <string-array name="pref_network_type_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>
