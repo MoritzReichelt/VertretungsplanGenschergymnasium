@@ -365,8 +365,8 @@ public class NotificationJobService extends JobService {
         String bigText = "Der Vertretungsplan für " + fileDateLeft + ", den " + fileDateRight + ", ist verfügbar!";
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
-                .setSmallIcon(R.drawable.ic_job_running)
-                .setContentTitle("Vertretungsplan")
+                .setSmallIcon(R.drawable.ic_job_plan)
+                .setContentTitle(getString(R.string.plan_notif_title))
                 .setContentText(textSnippet)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true)
@@ -408,8 +408,8 @@ public class NotificationJobService extends JobService {
         String text = getString(R.string.changed_plan_text);
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
-                .setSmallIcon(R.drawable.ic_job_running)
-                .setContentTitle(getString(R.string.app_name))
+                .setSmallIcon(R.drawable.ic_job_plan)
+                .setContentTitle(getString(R.string.plan_notif_title))
                 .setContentText(text)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true);

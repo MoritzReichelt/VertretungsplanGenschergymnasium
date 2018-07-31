@@ -23,6 +23,7 @@
     <string name="notification_channel_id">Channel_1</string>
     <string name="new_plan_description">Sendet eine Benachrichtigung bei neuem Vertretungsplan</string>
     <string name="changed_plan_text">Der Vertretungsplan wurde aktualisiert!</string>
+    <string name="plan_notif_title">Vertretungsplan Genschergymnasium</string>
 
     <!-- Einstellungen - Arrays -->
 
