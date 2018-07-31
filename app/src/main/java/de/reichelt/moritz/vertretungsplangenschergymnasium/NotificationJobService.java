@@ -56,7 +56,7 @@ public class NotificationJobService extends JobService {
 
                 if (canPing()) {
 
-                    path = Objects.requireNonNull(getExternalFilesDir(null)).toString() + "/plans/";
+                    path = getFilesDir().toString() + "/plans/";
 
                 /* Wenn noch kein Vergleichs-VPlan im Ordner ist, wird dieser erstellt und
                 ein VPlan heruntergeladen (normalerweise nur nach Erstinstallation der Fall)
