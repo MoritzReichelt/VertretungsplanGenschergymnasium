@@ -18,6 +18,11 @@
     <string name="about_code">Der Quellcode ist frei verfügbar und kann auf GitHub eingesehen werden</string>
     <string name="about_button_see_code">Quellcode ansehen</string>
     <string name="menu_reset_settings">Einstellungen zurücksetzen</string>
+    <string name="changed_plan_description">Sendet eine Benachrichtigung bei neuem Vertretungsplan</string>
+    <string name="changed_plan_name">Vertretungsplan-Benachrichtigungen</string>
+    <string name="notification_channel_id">Channel_1</string>
+    <string name="new_plan_description">Sendet eine Benachrichtigung bei neuem Vertretungsplan</string>
+    <string name="changed_plan_text">Der Vertretungsplan wurde aktualisiert!</string>
 
     <!-- Einstellungen - Arrays -->
 

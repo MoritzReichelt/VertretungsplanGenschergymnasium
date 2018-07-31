@@ -14,6 +14,13 @@ class Job {
     private static final int JOB_ID = 14062001;
     private static JobScheduler mScheduler;
 
+
+    /**
+     * Schedules a job with constraints that are received from SharedPreferences
+     *
+     * @param context     Application context
+     * @param packageName String with the package name
+     */
     public static void schedule(Context context, String packageName) {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -28,7 +35,7 @@ class Job {
                 .setPersisted(true)
                 .setRequiredNetworkType(network_type)
                 .setPeriodic(interval * 60000)
-                .setBackoffCriteria(60000,JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+                .setBackoffCriteria(60000, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
 
         JobInfo jobInfo = builder.build();
 
@@ -36,6 +43,11 @@ class Job {
         mScheduler.schedule(jobInfo);
     }
 
+
+    /**
+     * Cancels all jobs. This is normally not recommended as it might cancel jobs that are still
+     * needed running. In our case it is safe as we always have just one job scheduled at a time.
+     */
     public static void cancel() {
         if (mScheduler != null) {
             mScheduler.cancelAll();

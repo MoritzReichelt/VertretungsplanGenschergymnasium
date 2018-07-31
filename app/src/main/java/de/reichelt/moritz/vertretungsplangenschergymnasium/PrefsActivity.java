@@ -34,6 +34,8 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Logging.start(Objects.requireNonNull(getExternalFilesDir(null)).toString());
+
         addPreferencesFromResource(R.xml.preferences);
         setupActionBar();
 
@@ -193,6 +195,10 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * Sets up the action bar that the user can see at the top of the screen.
+     */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -201,6 +207,10 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+
+    /**
+     * Shows an Alert Dialog to the user in which he can reset the settings or cancel that action.
+     */
     private void fireAlertDialog() {
         if (!isFinishing()) {
             AlertDialog.Builder builder;
@@ -225,6 +235,10 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+
+    /**
+     * Resets the settings to the default values.
+     */
     private void resetSettings() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();
@@ -246,6 +260,11 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         return true;
     }
 
+
+    /**
+     * Starts an intent to the MainActivity from PrefsActivity so that the settings affecting
+     * the WebView will take effect.
+     */
     private void restartActivity() {
         Intent intent = new Intent(PrefsActivity.this, MainActivity.class);
         finish();
@@ -254,6 +273,12 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         overridePendingTransition(0, 0);
     }
 
+
+    /**
+     * Recursively picks a preference object so that the current value can be seen in the summary.
+     *
+     * @param p The preference category
+     */
     private void pickPreferenceObject(Preference p) {
         if (p instanceof PreferenceCategory) {
             PreferenceCategory cat = (PreferenceCategory) p;
@@ -265,6 +290,12 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+
+    /**
+     * Sets the summary of a preference so that it reflects its current value.
+     *
+     * @param p The preference of which the summary should be shown
+     */
     private void initSummary(Preference p) {
         String key = p.getKey();
         if (key.equals("pref_username") || key.equals("pref_sync_interval") || key.equals("pref_network_type")) {
@@ -282,6 +313,13 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+
+    /**
+     * Saves a changed value to the Shared Preferences
+     *
+     * @param p        Preference to be used
+     * @param newValue Value to be saved
+     */
     private void saveChangedValueToSharedPreferences(Preference p, Object newValue) {
         String key = p.getKey();
         if (p instanceof SwitchPreference) {
