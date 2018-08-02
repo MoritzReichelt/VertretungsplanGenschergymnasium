@@ -34,8 +34,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Logging.start(Objects.requireNonNull(getExternalFilesDir(null)).toString());
-
         addPreferencesFromResource(R.xml.preferences);
         setupActionBar();
 
