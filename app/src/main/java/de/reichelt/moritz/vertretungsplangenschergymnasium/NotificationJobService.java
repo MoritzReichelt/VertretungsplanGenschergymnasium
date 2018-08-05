@@ -141,11 +141,11 @@ public class NotificationJobService extends JobService {
                           fileDateRight = "16. April 2018"
                          */
 
-                            fileContentTemp = getStringFromFile(file2);
+                            fileContentTemp = Methods.getStringFromFile(file2);
 
                             if (fileContentTemp != null) {
-                                String file1String = getStringFromFile(file1);
-                                String file2String = getStringFromFile(file2);
+                                String file1String = Methods.getStringFromFile(file1);
+                                String file2String = Methods.getStringFromFile(file2);
 
                                 String file1Date = getLeftDateFromFile(Objects.requireNonNull(file1String));
                                 String file2Date = getLeftDateFromFile(Objects.requireNonNull(file2String));
@@ -258,20 +258,7 @@ public class NotificationJobService extends JobService {
     }
 
 
-    /**
-     * Retrieves a string from a file.
-     *
-     * @param file The file to be used
-     * @return String containing the contents of the file
-     */
-    private static String getStringFromFile(File file) {
-        try {
-            return FileUtils.readFileToString(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
 
     /**
@@ -449,7 +436,7 @@ public class NotificationJobService extends JobService {
      * @return Boolean indicating whether or not the file is valid
      */
     private boolean isValidFile(File file) {
-        String fileString = getStringFromFile(file);
+        String fileString = Methods.getStringFromFile(file);
         //Log.i(TAG, fileString);
         boolean isValid = false;
         if (fileString != null) {

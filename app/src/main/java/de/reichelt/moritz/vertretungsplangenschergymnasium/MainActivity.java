@@ -1,14 +1,11 @@
 package de.reichelt.moritz.vertretungsplangenschergymnasium;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.HttpAuthHandler;
@@ -18,8 +15,8 @@ import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url, username, password;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private String username;
+    private String password;
     private WebView webView;
 
     @Override
@@ -28,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Initialisiere das Refresh Layout
-        swipeRefreshLayout = findViewById(R.id.swipe);
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
 
         //Hole Anmeldedaten aus den SharedPrefs
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        url = Methods.getSharedPrefsURL(getApplicationContext());
+        String url = Methods.getSharedPrefsURL(getApplicationContext());
         username = Methods.getSharedPrefsUsername(getApplicationContext());
         password = Methods.getSharedPrefsPassword(getApplicationContext());
         boolean stretchScreen = sharedPreferences.getBoolean("pref_stretch", false);
@@ -56,9 +53,24 @@ public class MainActivity extends AppCompatActivity {
 
                 handler.proceed(username, password);
             }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+
+                webSettings.setTextZoom(80);
+                                String htmlString = "<html><body>" +
+                        "<h3><strong>Webseite nicht verfügbar</strong></h3>\n" +
+                        "<p>Die Website unter <strong>" + failingUrl + "</strong> konnte nicht geladen werden, weil:</p>\n" +
+                        "<p>" + description + "</p></body></html>";
+
+                webView.loadUrl("about:blank");
+                webView.loadDataWithBaseURL(null, htmlString, "text/html", "UTF-8", null);
+            }
         });
 
         if (savedInstanceState == null) {
+            webSettings.setTextZoom(10);
             webView.loadUrl(url);
         }
 
@@ -66,15 +78,10 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isDeviceOffline()) {
-                    webSettings.setCacheMode(WebSettings.LOAD_CACHE_ONLY);
-                    webView.loadUrl(url);
-                    swipeRefreshLayout.setRefreshing(false);
-                } else {
-                    webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-                    webView.loadUrl(url);
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             }
         });
     }
@@ -118,21 +125,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-
-    /**
-     * Checks whether or not the device is connected to a network.
-     *
-     * @return Boolean indicating whether or not the device is connected
-     */
-    private boolean isDeviceOffline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
-        }
-
-        return networkInfo == null || !networkInfo.isConnected();
     }
 }

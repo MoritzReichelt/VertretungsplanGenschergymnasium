@@ -119,6 +119,7 @@ class Methods {
         String urlString = getSharedPrefsURL(context);
         String username = getSharedPrefsUsername(context);
         String password = getSharedPrefsPassword(context);
+        int responseCode = -1;
 
         String credentials = username + ":" + password;
         byte[] data = new byte[0];
@@ -137,9 +138,9 @@ class Methods {
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setRequestProperty("Authorization", "Basic " + base64);
-
-            if (connection.getResponseCode() != 401) {
-                Log.i(TAG, "Response code: " + String.valueOf(connection.getResponseCode()));
+            responseCode = connection.getResponseCode();
+            if (responseCode != 401) {
+                Log.i(TAG, "Response code: " + String.valueOf(responseCode));
 
                 InputStream is = connection.getInputStream();
                 Log.i(TAG, "Getting input stream from server...");
@@ -155,6 +156,23 @@ class Methods {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.i(TAG,"Some error occurred, the vplan could not be downloaded! Response code: " + responseCode);
+    }
+
+
+    /**
+     * Retrieves a string from a file.
+     *
+     * @param file The file to be used
+     * @return String containing the contents of the file
+     */
+    public static String getStringFromFile(File file) {
+        try {
+            return FileUtils.readFileToString(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 
