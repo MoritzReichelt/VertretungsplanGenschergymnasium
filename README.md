@@ -1,6 +1,6 @@
 # Vertretungsplan Genschergymnasium
 ## Download
-Die neueste Version 1.6 kann über https://drive.google.com/open?id=10GHw1qYRvqQzYzTbtVudztl6aYBcJnKd
+Die neueste Version 1.7 kann über https://drive.google.com/open?id=10GHw1qYRvqQzYzTbtVudztl6aYBcJnKd
 als installierbare APK-Datei heruntergeladen werden. Dazu muss in den Einstellungen -> Sicherheit die 'Installation von Apps
 aus unbekannten Quellen' erlaubt sein.
 ## Quellcode ansehen
