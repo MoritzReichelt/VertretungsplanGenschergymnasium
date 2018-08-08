@@ -117,7 +117,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                 if (enabled) {
                     Job.schedule(getApplicationContext(), getPackageName());
                 } else {
-                    Job.schedule(getApplicationContext(), getPackageName());
+                    //Job.schedule(getApplicationContext(), getPackageName());
                     Job.cancel();
                 }
                 return true;

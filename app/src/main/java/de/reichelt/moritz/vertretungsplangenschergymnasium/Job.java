@@ -6,8 +6,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
+import static android.content.ContentValues.TAG;
+
+
 
 class Job {
 
@@ -22,6 +27,7 @@ class Job {
      * @param packageName String with the package name
      */
     public static void schedule(Context context, String packageName) {
+        Log.i(TAG, "Job scheduled");
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int interval = Integer.parseInt(sharedPreferences.getString("pref_sync_interval", "60"));
@@ -51,6 +57,7 @@ class Job {
     public static void cancel() {
         if (mScheduler != null) {
             mScheduler.cancelAll();
+            Log.i(TAG,"Job canceled");
             mScheduler = null;
         }
     }

@@ -11,7 +11,7 @@
     <string name="pref_url_default">http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml</string>
     <string name="pref_notifications_enabled_key">pref_notifications_enabled</string>
     <string name="about_name">Diese App wurde 2018 von Moritz Reichelt im Rahmen einer Facharbeit erstellt.</string>
-    <string name="about_license">Diese App ist unter der GNU General Public License 3 lizensiert. Copyright: Moritz Reichelt</string>
+    <string name="about_license">Diese App ist unter der GNU General Public License 3 lizensiert.</string>
     <string name="about_button_see_license">Lizenz ansehen</string>
     <string name="about_code">Der Quellcode ist frei verfügbar und kann auf GitHub eingesehen werden.</string>
     <string name="about_button_see_code">Quellcode ansehen</string>
@@ -23,6 +23,7 @@
     <string name="changed_plan_text">Der Vertretungsplan wurde aktualisiert!</string>
     <string name="plan_notif_title">Vertretungsplan Genschergymnasium</string>
     <string name="about_version">Version 1.7</string>
+    <string name="about_copyright">© 2018 Moritz Reichelt</string>
 
     <!-- Einstellungen - Arrays -->
 
