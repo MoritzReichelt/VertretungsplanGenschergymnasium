@@ -15,6 +15,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+
         Button viewLicense = findViewById(R.id.viewLicense);
         viewLicense.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,5 +33,6 @@ public class AboutActivity extends AppCompatActivity {
                 startActivity(viewCode);
             }
         });
+
     }
 }

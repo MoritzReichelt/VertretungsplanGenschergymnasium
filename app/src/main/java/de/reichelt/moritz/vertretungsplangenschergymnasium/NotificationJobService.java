@@ -258,9 +258,6 @@ public class NotificationJobService extends JobService {
     }
 
 
-
-
-
     /**
      * Checks whether or not a directory is empty.
      *
@@ -344,7 +341,7 @@ public class NotificationJobService extends JobService {
             NotificationChannel mChannel = new NotificationChannel(channel_id, name, importance);
             mChannel.setDescription(description);
             mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
+            mChannel.setLightColor(Color.rgb(246,116,28));
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(mChannel);
         }
@@ -388,7 +385,7 @@ public class NotificationJobService extends JobService {
             NotificationChannel mChannel = new NotificationChannel(channel_id, name, importance);
             mChannel.setDescription(description);
             mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
+            mChannel.setLightColor(Color.rgb(246,116,28));
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(mChannel);
         }
