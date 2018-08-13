@@ -16,24 +16,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
             app:cardCornerRadius="8dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher_round"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center" />
+                    android:src="@mipmap/ic_launcher_round" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,26 +42,26 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/plan_notif_title"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
-                    android:textSize="16sp"
+                    android:layout_marginStart="15dp"
                     android:text="@string/about_copyright"
-                    android:layout_gravity="center"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_version"
-                    android:textSize="14sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
-                    android:layout_gravity="center"/>
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/about_version"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -82,11 +82,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/about_name"
-                android:textSize="18sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:textSize="18sp" />
 
         </android.support.v7.widget.CardView>
 
@@ -95,33 +95,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginBottom="15dp"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
             app:cardCornerRadius="8dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/about_license"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
-                <Button style="?buttonBarButtonStyle"
+                <Button
+                    android:id="@+id/viewLicense"
+                    style="?buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/viewLicense"
+                    android:background="@color/colorWhite"
                     android:text="@string/about_button_see_license"
                     android:textAllCaps="false"
-                    android:background="@color/colorWhite"
                     android:textColor="@color/colorAccent"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -131,34 +132,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
             app:cardCornerRadius="8dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/about_code"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
-                <Button style="?buttonBarButtonStyle"
+                <Button
+                    android:id="@+id/viewCode"
+                    style="?buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/viewCode"
+                    android:background="@color/colorWhite"
                     android:text="@string/about_button_see_code"
                     android:textAllCaps="false"
-                    android:background="@color/colorWhite"
                     android:textColor="@color/colorAccent"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

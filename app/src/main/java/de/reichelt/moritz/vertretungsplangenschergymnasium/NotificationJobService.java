@@ -439,7 +439,7 @@ public class NotificationJobService extends JobService {
         if (fileString != null) {
             isValid = fileString.contains("<kopf>") || fileString.contains("<schulname>") || fileString.contains("Montag")
                     || fileString.contains("Dienstag") || fileString.contains("Mittwoch") || fileString.contains("Donnerstag")
-                    || fileString.contains("Freitag");
+                    || fileString.contains("Freitag") || fileString.contains("<titel>") || fileString.contains("</titel>");
         }
         //Log.i(TAG, "File '" + String.valueOf(file) + "' is valid: " + isValid);
         return isValid;

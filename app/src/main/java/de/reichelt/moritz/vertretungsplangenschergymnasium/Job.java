@@ -7,12 +7,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 import static android.content.ContentValues.TAG;
-
-
 
 class Job {
 

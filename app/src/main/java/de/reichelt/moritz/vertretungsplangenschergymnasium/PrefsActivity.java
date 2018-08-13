@@ -183,12 +183,14 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         switch (id) {
             case R.id.resetSettings:
                 fireAlertDialog();
+                return true;
             case android.R.id.home:
                 if (preferenceChange) {
-                    restartActivity();
+                    restartMainActivity();
                 } else {
                     onBackPressed();
                 }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -207,7 +209,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
 
 
     /**
-     * Shows an Alert Dialog to the user in which he can reset the settings or cancel that action.
+     * Shows an Alert Dialog to the user in which he can reset the settings or cancel this action.
      */
     private void fireAlertDialog() {
         if (!isFinishing()) {
@@ -244,13 +246,14 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         editor.apply();
     }
 
+
     //Wendet die vorgenommenen Einstellungen an, indem es die MainActivity bei verändertern Einstellungen neu startet
     //Bei unveränderten Einstellungen wird MainActivity ohne Neustart geladen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             if (preferenceChange) {
-                restartActivity();
+                restartMainActivity();
             } else {
                 onBackPressed();
             }
@@ -263,7 +266,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
      * Starts an intent to the MainActivity from PrefsActivity so that the settings affecting
      * the WebView will take effect.
      */
-    private void restartActivity() {
+    private void restartMainActivity() {
         Intent intent = new Intent(PrefsActivity.this, MainActivity.class);
         finish();
         overridePendingTransition(0, 0);
