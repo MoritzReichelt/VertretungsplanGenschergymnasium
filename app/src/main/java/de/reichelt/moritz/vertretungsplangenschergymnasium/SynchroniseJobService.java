@@ -28,7 +28,7 @@ import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 
-public class NotificationJobService extends JobService {
+public class SynchroniseJobService extends JobService {
 
     private File file1, file2;
     private boolean errorOccurred, success;
@@ -54,7 +54,7 @@ public class NotificationJobService extends JobService {
             @Override
             public void run() {
 
-                if (canPing()) {
+                if (canPingGoogle()) {
 
                     path = getFilesDir().toString() + "/plans/";
 
@@ -86,7 +86,7 @@ public class NotificationJobService extends JobService {
 
                 /*
                   Lädt den Vertretungsplan herunter
-                  Speichert ihn im App-internen Ordner Documents
+                  Speichert ihn im App-internen Ordner plans
                   Benennt die .xml Datei nach der aktuellen Uhrzeit
                  */
 
@@ -111,13 +111,10 @@ public class NotificationJobService extends JobService {
                         allFiles = dir.listFiles();
                         allFiles = sortFileArrayLastModified(allFiles);
 
-                        String file1Name = allFiles[0].toString();
-                        String file2Name = allFiles[1].toString();
+                        file1 = allFiles[0];
+                        file2 = allFiles[1];
 
-                        file1 = new File(file1Name);
-                        file2 = new File(file2Name);
-
-                        Log.i(TAG, "The following files are being compared: " + file1Name + " and " + file2Name);
+                        Log.i(TAG, "The following files are being compared: '" + file1.toString() + "' and '" + file2.toString() + "'");
 
                         String file1MD5 = calculateMD5(file1);
                         String file2MD5 = calculateMD5(file2);
@@ -155,10 +152,10 @@ public class NotificationJobService extends JobService {
 
                                 if (Objects.equals(file1Date, file2Date)) {
                                     Log.i(TAG, "A changed plan is available!");
-                                    sendNotifyWhenPlanChanged();
+                                    sendNotificationWhenPlanChanged();
                                 } else {
                                     Log.i(TAG, "A new plan is available!");
-                                    sendNotifyWhenNewPlan(fileContentTemp);
+                                    sendNotificationWhenNewPlan(fileContentTemp);
                                 }
                             } else {
                                 errorOccurred = true;
@@ -175,7 +172,6 @@ public class NotificationJobService extends JobService {
                         }
                         //Kein neuer Vertretungsplan verfügbar
                         else {
-                            //sendNotifyWhenNoNewPlan();
                             Log.i(TAG, "No new plan!");
                             success = deleteFile(file2);
                         }
@@ -311,7 +307,7 @@ public class NotificationJobService extends JobService {
      * @param fileContentTemp String containing the whole file. From this the date will be extracted
      *                        to be used in the notification
      */
-    private void sendNotifyWhenNewPlan(String fileContentTemp) {
+    private void sendNotificationWhenNewPlan(String fileContentTemp) {
         String fileContent1[] = fileContentTemp.split("<titel>");
         String fileDateTemp = fileContent1[1];
         String fileContent2[] = fileDateTemp.split(" </titel>");
@@ -341,7 +337,7 @@ public class NotificationJobService extends JobService {
             NotificationChannel mChannel = new NotificationChannel(channel_id, name, importance);
             mChannel.setDescription(description);
             mChannel.enableLights(true);
-            mChannel.setLightColor(Color.rgb(246,116,28));
+            mChannel.setLightColor(Color.rgb(246, 116, 28));
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(mChannel);
         }
@@ -350,7 +346,7 @@ public class NotificationJobService extends JobService {
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setSmallIcon(R.drawable.ic_job_plan)
-                .setContentTitle(getString(R.string.plan_notif_title))
+                .setContentTitle("Neuer Vertretungsplan!")
                 .setContentText(textSnippet)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true)
@@ -365,7 +361,7 @@ public class NotificationJobService extends JobService {
     /**
      * Sends a notification to the user informing him about an updated vplan.
      */
-    private void sendNotifyWhenPlanChanged() {
+    private void sendNotificationWhenPlanChanged() {
         //PendingIntent sorgt dafür, dass die App startet, wenn die Benachrichtigung angeklickt wird
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -385,7 +381,7 @@ public class NotificationJobService extends JobService {
             NotificationChannel mChannel = new NotificationChannel(channel_id, name, importance);
             mChannel.setDescription(description);
             mChannel.enableLights(true);
-            mChannel.setLightColor(Color.rgb(246,116,28));
+            mChannel.setLightColor(Color.rgb(246, 116, 28));
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(mChannel);
         }
@@ -434,14 +430,12 @@ public class NotificationJobService extends JobService {
      */
     private boolean isValidFile(File file) {
         String fileString = Methods.getStringFromFile(file);
-        //Log.i(TAG, fileString);
         boolean isValid = false;
         if (fileString != null) {
-            isValid = fileString.contains("<kopf>") || fileString.contains("<schulname>") || fileString.contains("Montag")
-                    || fileString.contains("Dienstag") || fileString.contains("Mittwoch") || fileString.contains("Donnerstag")
-                    || fileString.contains("Freitag") || fileString.contains("<titel>") || fileString.contains("</titel>");
+            isValid = (fileString.contains("Montag") || fileString.contains("Dienstag")
+                    || fileString.contains("Mittwoch") || fileString.contains("Donnerstag")
+                    || fileString.contains("Freitag")) & fileString.contains("<titel>") & fileString.contains("</titel>");
         }
-        //Log.i(TAG, "File '" + String.valueOf(file) + "' is valid: " + isValid);
         return isValid;
     }
 
@@ -453,7 +447,7 @@ public class NotificationJobService extends JobService {
      *
      * @return Boolean indicating whether or not Google DNS could be reached
      */
-    private boolean canPing() {
+    private boolean canPingGoogle() {
         Runtime runtime = Runtime.getRuntime();
         try {
             Log.i(TAG, "Trying to ping IP address " + "8.8.8.8");
@@ -501,7 +495,7 @@ public class NotificationJobService extends JobService {
 
 
     /**
-     * Deletes a file recursively.
+     * Deletes a file or a directory recursively.
      *
      * @param file File to be deleted
      * @return Boolean indicating whether or not the deletion was successful

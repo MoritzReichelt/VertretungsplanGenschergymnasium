@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         username = Methods.getSharedPrefsUsername(getApplicationContext());
         password = Methods.getSharedPrefsPassword(getApplicationContext());
         boolean stretchScreen = sharedPreferences.getBoolean("pref_stretch", false);
+        boolean useCache = sharedPreferences.getBoolean("pref_cache", false);
+        //int textSize = sharedPreferences.getInt("pref_textSize", 8);
 
         webView = findViewById(R.id.webView);
 
@@ -43,8 +45,13 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(stretchScreen); //True, um die Seite auf den gesamten Bildschirm zu strecken
         webSettings.setTextZoom(10);
-        webSettings.setMinimumFontSize(10);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setMinimumFontSize(8);
+
+        if (useCache) {
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        } else {
+            webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        }
 
         webView.setWebViewClient(new WebViewClient() {
 

@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Anzeige">
-
+    <PreferenceCategory android:title="Allgemein">
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_stretch"
             android:summary="Streckt den Vertretungsplan auf den gesamten Bildschirm (vor allem für größere Displays oder Querformat geeignet)"
             android:title="Auf gesamten Bildschirm strecken" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_cache"
+            android:summary="Der Vertretungsplan lässt sich offline abrufen. Eventuell wird er nicht sofort aktualisiert."
+            android:title="Offline verfügbar machen" />
+
+        <!---
+
+        <SeekBarPreference
+            android:title="Schriftgröße"
+            android:key="pref_textSize"
+            android:max="8"
+            android:defaultValue="0"
+            android:visibility="invisible"
+            />
+        !-->
     </PreferenceCategory>
     <PreferenceCategory android:title="Authentifizierung">
         <EditTextPreference
-            android:defaultValue="http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml"
+            android:defaultValue="@string/pref_url_default"
             android:key="pref_url"
             android:selectAllOnFocus="true"
             android:summary="Adresse, unter der sich der Vertretungsplan befindet"

@@ -33,7 +33,7 @@ class Job {
         mScheduler = (JobScheduler) context.getSystemService(JOB_SCHEDULER_SERVICE);
 
         ComponentName serviceName = new ComponentName(packageName,
-                NotificationJobService.class.getName());
+                SynchroniseJobService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
                 .setPersisted(true)
                 .setRequiredNetworkType(network_type)

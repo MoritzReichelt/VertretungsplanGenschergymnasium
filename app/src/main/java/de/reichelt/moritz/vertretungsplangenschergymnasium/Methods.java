@@ -79,7 +79,7 @@ class Methods {
      */
     public static String getSharedPrefsURL(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_url", "http://www.genscher-halle.bildung-lsa.de/plan/vplan.xml");
+        return sharedPreferences.getString("pref_url", context.getString(R.string.pref_url_default));
     }
 
 
@@ -91,7 +91,7 @@ class Methods {
      */
     public static String getSharedPrefsUsername(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_username", "Genscher");
+        return sharedPreferences.getString("pref_username", context.getString(R.string.pref_username_default));
     }
 
 
@@ -103,7 +103,7 @@ class Methods {
      */
     public static String getSharedPrefsPassword(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_password", "Schule");
+        return sharedPreferences.getString("pref_password", context.getString(R.string.pref_password_default));
     }
 
 
@@ -119,7 +119,7 @@ class Methods {
         String urlString = getSharedPrefsURL(context);
         String username = getSharedPrefsUsername(context);
         String password = getSharedPrefsPassword(context);
-        int responseCode = -1;
+        int responseCode;
 
         String credentials = username + ":" + password;
         byte[] data = new byte[0];
@@ -149,6 +149,7 @@ class Methods {
                 File file = new File(dirPath + "Plan_" + currentDateTime + ".xml");
                 Log.i(TAG, "Writing input stream to file " + file.toString());
                 FileUtils.copyInputStreamToFile(is, file);
+
             } else {
                 Log.i(TAG, "Response code was 401, meaning the client was unauthorized to access" +
                         " the server");
@@ -156,7 +157,7 @@ class Methods {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i(TAG,"Some error occurred, the vplan could not be downloaded! Response code: " + responseCode);
+
     }
 
 

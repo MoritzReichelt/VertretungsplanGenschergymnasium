@@ -38,7 +38,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         setupActionBar();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        editor = preferences.edit();
 
         // show the current value in the settings screen
         for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
@@ -55,6 +54,31 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
             }
         });
 
+        Preference preferenceCache = findPreference("pref_cache");
+        preferenceCache.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                saveChangedValueToSharedPreferences(preference, newValue);
+                preferenceChange = true;
+                return true;
+            }
+        });
+
+        /*
+
+        Preference preferenceTextSize = findPreference("pref_textSize");
+        preferenceTextSize.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                int value = (int) newValue + 8;
+                saveChangedValueToSharedPreferences(preference, value);
+                //preference.setSummary(value);
+                Toast.makeText(PrefsActivity.this, "onPreferenceChange, new value: " + value, Toast.LENGTH_LONG).show();
+                preferenceChange = true;
+                return true;
+            }
+        });
+*/
         Preference preferenceURL = findPreference("pref_url");
         preferenceURL.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -68,8 +92,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                     preferenceChange = true;
                     return true;
                 } else {
-                    editor.putString("pref_url", getString(R.string.pref_url_default));
-                    editor.apply();
                     Toast.makeText(PrefsActivity.this, "Ungültige URL", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -117,7 +139,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                 if (enabled) {
                     Job.schedule(getApplicationContext(), getPackageName());
                 } else {
-                    //Job.schedule(getApplicationContext(), getPackageName());
                     Job.cancel();
                 }
                 return true;
@@ -177,6 +198,13 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         return true;
     }
 
+
+    /**
+     * Called by the system when the user selects an item on the action bar.
+     *
+     * @param item Selected item
+     * @return Boolean whether or not the click was handled by the user
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -193,6 +221,29 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Called by the system when a button or other key was pressed.
+     * Overrides the default onKeyDown event so that the MainActivity can be reloaded when a preference
+     * affecting the WebView changed.
+     *
+     * @param keyCode Provided by the system
+     * @param event   Provided by the system, we just need it to detect if the back button was pressed
+     *                (KeyEvent.KEYCODE_BACK)
+     * @return In this case true because we have handled the onKeyDown event our self
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            if (preferenceChange) {
+                restartMainActivity();
+            } else {
+                onBackPressed();
+            }
+        }
+        return true;
     }
 
 
@@ -237,32 +288,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
 
 
     /**
-     * Resets the settings to the default values.
-     */
-    private void resetSettings() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
-
-    //Wendet die vorgenommenen Einstellungen an, indem es die MainActivity bei verändertern Einstellungen neu startet
-    //Bei unveränderten Einstellungen wird MainActivity ohne Neustart geladen
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            if (preferenceChange) {
-                restartMainActivity();
-            } else {
-                onBackPressed();
-            }
-        }
-        return true;
-    }
-
-
-    /**
      * Starts an intent to the MainActivity from PrefsActivity so that the settings affecting
      * the WebView will take effect.
      */
@@ -272,6 +297,17 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         overridePendingTransition(0, 0);
         startActivity(intent);
         overridePendingTransition(0, 0);
+    }
+
+
+    /**
+     * Resets the SharedPreferences and therefore the settings to the default values.
+     */
+    private void resetSettings() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = preferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
 
@@ -316,12 +352,13 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
 
 
     /**
-     * Saves a changed value to the Shared Preferences
+     * Saves a changed value to the SharedPreferences
      *
      * @param p        Preference to be used
      * @param newValue Value to be saved
      */
     private void saveChangedValueToSharedPreferences(Preference p, Object newValue) {
+        editor = preferences.edit();
         String key = p.getKey();
         if (p instanceof SwitchPreference) {
             editor.putBoolean(key, (boolean) newValue);
