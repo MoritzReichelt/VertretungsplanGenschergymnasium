@@ -175,5 +175,14 @@ class Methods {
         }
         return null;
     }
+
+    /**
+     * Gets the file path where all the plans are stored.
+     * @param context Application context
+     * @return String with the full file path
+     */
+    public static String getFilePath(Context context){
+        return context.getFilesDir().toString() + "/plans/";
+    }
 }
 

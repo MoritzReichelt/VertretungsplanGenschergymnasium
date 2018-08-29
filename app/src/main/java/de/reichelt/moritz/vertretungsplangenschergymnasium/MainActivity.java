@@ -2,6 +2,7 @@ package de.reichelt.moritz.vertretungsplangenschergymnasium;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Initialisiere das Refresh Layout
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
 
         //Hole Anmeldedaten aus den SharedPrefs
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         password = Methods.getSharedPrefsPassword(getApplicationContext());
         boolean stretchScreen = sharedPreferences.getBoolean("pref_stretch", false);
         boolean useCache = sharedPreferences.getBoolean("pref_cache", false);
-        //int textSize = sharedPreferences.getInt("pref_textSize", 8);
 
         webView = findViewById(R.id.webView);
 
@@ -66,13 +66,25 @@ public class MainActivity extends AppCompatActivity {
                 super.onReceivedError(view, errorCode, description, failingUrl);
 
                 webSettings.setTextZoom(80);
-                                String htmlString = "<html><body>" +
+                String htmlString = "<html><body>" +
                         "<h3><strong>Webseite nicht verfügbar</strong></h3>\n" +
                         "<p>Die Website unter <strong>" + failingUrl + "</strong> konnte nicht geladen werden, weil:</p>\n" +
                         "<p>" + description + "</p></body></html>";
 
                 webView.loadUrl("about:blank");
                 webView.loadDataWithBaseURL(null, htmlString, "text/html", "UTF-8", null);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

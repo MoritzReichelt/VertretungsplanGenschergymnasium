@@ -64,21 +64,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
             }
         });
 
-        /*
 
-        Preference preferenceTextSize = findPreference("pref_textSize");
-        preferenceTextSize.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                int value = (int) newValue + 8;
-                saveChangedValueToSharedPreferences(preference, value);
-                //preference.setSummary(value);
-                Toast.makeText(PrefsActivity.this, "onPreferenceChange, new value: " + value, Toast.LENGTH_LONG).show();
-                preferenceChange = true;
-                return true;
-            }
-        });
-*/
         Preference preferenceURL = findPreference("pref_url");
         preferenceURL.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

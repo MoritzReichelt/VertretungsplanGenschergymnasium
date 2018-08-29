@@ -54,9 +54,11 @@ public class SynchroniseJobService extends JobService {
             @Override
             public void run() {
 
+                pause(2000);
+
                 if (canPingGoogle()) {
 
-                    path = getFilesDir().toString() + "/plans/";
+                    path = Methods.getFilePath(getApplicationContext());
 
                 /* Wenn noch kein Vergleichs-VPlan im Ordner ist, wird dieser erstellt und
                 ein VPlan heruntergeladen (normalerweise nur nach Erstinstallation der Fall)
@@ -511,6 +513,14 @@ public class SynchroniseJobService extends JobService {
         boolean success = file.delete();
         startMediaScanner();
         return success;
+    }
+    private void pause(int ms){
+        Log.i(TAG,"Sleeping for " + ms + " ms");
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 

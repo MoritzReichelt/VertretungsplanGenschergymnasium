@@ -12,17 +12,6 @@
             android:key="pref_cache"
             android:summary="Der Vertretungsplan lässt sich offline abrufen. Eventuell wird er nicht sofort aktualisiert."
             android:title="Offline verfügbar machen" />
-
-        <!---
-
-        <SeekBarPreference
-            android:title="Schriftgröße"
-            android:key="pref_textSize"
-            android:max="8"
-            android:defaultValue="0"
-            android:visibility="invisible"
-            />
-        !-->
     </PreferenceCategory>
     <PreferenceCategory android:title="Authentifizierung">
         <EditTextPreference
