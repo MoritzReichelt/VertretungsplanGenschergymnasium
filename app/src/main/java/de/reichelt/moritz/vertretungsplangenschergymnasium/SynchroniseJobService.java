@@ -346,7 +346,7 @@ public class SynchroniseJobService extends JobService {
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setSmallIcon(R.drawable.ic_job_plan)
-                .setContentTitle("Neuer Vertretungsplan!")
+                .setContentTitle(getString(R.string.notif_title))
                 .setContentText(textSnippet)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true)
@@ -389,7 +389,7 @@ public class SynchroniseJobService extends JobService {
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setSmallIcon(R.drawable.ic_job_plan)
-                .setContentTitle(getString(R.string.plan_notif_title))
+                .setContentTitle(getString(R.string.notif_title))
                 .setContentText(text)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true);

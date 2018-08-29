@@ -308,6 +308,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         editor = preferences.edit();
         editor.clear();
         editor.apply();
+        preferenceChange = true;
     }
 
 
