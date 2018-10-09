@@ -7,16 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import static android.content.ContentValues.TAG;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,15 +36,11 @@ public class MainActivity extends AppCompatActivity {
             final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
 
             //Hole Anmeldedaten aus den SharedPrefs
-
             final String url = mPreferences.getString(Constants.urlKey, getString(R.string.pref_url_default));
             username = mPreferences.getString(Constants.usernameKey, getString(R.string.pref_username_default));
             password = mPreferences.getString(Constants.passwordKey, getString(R.string.pref_password_default));
             boolean stretchScreen = mPreferences.getBoolean(Constants.stretchScreenKey, false);
             boolean useCache = mPreferences.getBoolean(Constants.cacheKey, false);
-
-            Log.i(TAG, username);
-            Log.i(TAG, password);
 
             webView = findViewById(R.id.webView);
 
@@ -120,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
