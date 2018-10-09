@@ -39,7 +39,7 @@ class Methods {
      * @param files         Array of files that should be reduced
      * @param filesToBeLeft The amount of files that should be left
      */
-    public static void reduceDirContent(File[] files, int filesToBeLeft) {
+    static void reduceDirContent(File[] files, int filesToBeLeft) {
         Log.i(TAG, "The following files are inside the array(" + files.length + "): " + Arrays.toString(files));
 
         int filesToDelete = files.length - filesToBeLeft;
@@ -72,38 +72,13 @@ class Methods {
 
 
     /**
-     * Retrieves the URL that is currently saved in SharedPreferences.
-     *
+     * Gets if the user has enabled notifications
      * @param context Application context
-     * @return String containing the SharedPrefs URL
+     * @return Boolean indicating whether or not the user has enabled notifications
      */
-    public static String getSharedPrefsURL(Context context) {
+    static boolean areNotificationsEnabled(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_url", context.getString(R.string.pref_url_default));
-    }
-
-
-    /**
-     * Retrieves the username that is currently saved in SharedPreferences.
-     *
-     * @param context Application context
-     * @return String containing the SharedPrefs username
-     */
-    public static String getSharedPrefsUsername(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_username", context.getString(R.string.pref_username_default));
-    }
-
-
-    /**
-     * Retrieves the password that is currently saved in SharedPreferences.
-     *
-     * @param context Application context
-     * @return String containing the SharedPrefs password
-     */
-    public static String getSharedPrefsPassword(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("pref_password", context.getString(R.string.pref_password_default));
+        return sharedPreferences.getBoolean(Constants.notificationsKey, false);
     }
 
 
@@ -113,12 +88,13 @@ class Methods {
      * @param context Application context
      * @param dirPath Path to where the file should be saved
      */
-    public static void downloadPlan(Context context, String dirPath) {
+    static void downloadPlan(Context context, String dirPath) {
         Log.i(TAG, "Attempting to download a vplan...");
 
-        String urlString = getSharedPrefsURL(context);
-        String username = getSharedPrefsUsername(context);
-        String password = getSharedPrefsPassword(context);
+        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String urlString = mPreferences.getString(Constants.urlKey, context.getString(R.string.pref_url_default));
+        String username = mPreferences.getString(Constants.usernameKey, context.getString(R.string.pref_username_default));
+        String password = mPreferences.getString(Constants.passwordKey, context.getString(R.string.pref_password_default));
         int responseCode;
 
         String credentials = username + ":" + password;
@@ -149,15 +125,15 @@ class Methods {
                 File file = new File(dirPath + "Plan_" + currentDateTime + ".xml");
                 Log.i(TAG, "Writing input stream to file " + file.toString());
                 FileUtils.copyInputStreamToFile(is, file);
-
+                is.close();
             } else {
                 Log.i(TAG, "Response code was 401, meaning the client was unauthorized to access" +
                         " the server");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -167,7 +143,7 @@ class Methods {
      * @param file The file to be used
      * @return String containing the contents of the file
      */
-    public static String getStringFromFile(File file) {
+    static String getStringFromFile(File file) {
         try {
             return FileUtils.readFileToString(file);
         } catch (IOException e) {
@@ -176,12 +152,13 @@ class Methods {
         return null;
     }
 
+
     /**
      * Gets the file path where all the plans are stored.
      * @param context Application context
      * @return String with the full file path
      */
-    public static String getFilePath(Context context){
+    static String getFilePath(Context context){
         return context.getFilesDir().toString() + "/plans/";
     }
 }

@@ -1,6 +1,5 @@
 package de.reichelt.moritz.vertretungsplangenschergymnasium;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,24 +10,19 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
-import static android.support.constraint.Constraints.TAG;
-
 @SuppressWarnings("deprecation")
 public class PrefsActivity extends AppCompatPreferenceActivity {
 
-    private boolean preferenceChange;
+    private boolean preferenceChanged;
 
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences mPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,45 +31,45 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         setupActionBar();
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // show the current value in the settings screen
         for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
             pickPreferenceObject(getPreferenceScreen().getPreference(i));
         }
 
-        Preference preferenceStretch = findPreference("pref_stretch");
+        Preference preferenceStretch = findPreference(Constants.stretchScreenKey);
         preferenceStretch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 saveChangedValueToSharedPreferences(preference, newValue);
-                preferenceChange = true;
+                preferenceChanged = true;
                 return true;
             }
         });
 
-        Preference preferenceCache = findPreference("pref_cache");
+        Preference preferenceCache = findPreference(Constants.cacheKey);
         preferenceCache.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 saveChangedValueToSharedPreferences(preference, newValue);
-                preferenceChange = true;
+                preferenceChanged = true;
                 return true;
             }
         });
 
 
-        Preference preferenceURL = findPreference("pref_url");
+        Preference preferenceURL = findPreference(Constants.urlKey);
         preferenceURL.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Log.i(TAG, "URL has changed, calling isURLValid()...");
-
                 UrlValidator urlValidator = new UrlValidator();
 
                 if (urlValidator.isValid((String) newValue)) {
                     saveChangedValueToSharedPreferences(preference, newValue);
-                    preferenceChange = true;
+                    if (Methods.areNotificationsEnabled(getApplicationContext()))
+                        Job.schedule(getApplicationContext(), getPackageName());
+                    preferenceChanged = true;
                     return true;
                 } else {
                     Toast.makeText(PrefsActivity.this, "Ungültige URL", Toast.LENGTH_SHORT).show();
@@ -84,7 +78,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
             }
         });
 
-        Preference preferenceUsername = findPreference("pref_username");
+        Preference preferenceUsername = findPreference(Constants.usernameKey);
         preferenceUsername.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -94,14 +88,16 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                     return false;
                 } else {
                     saveChangedValueToSharedPreferences(preference, newValue);
-                    preference.setSummary(preferences.getString("pref_username", "Genscher"));
-                    preferenceChange = true;
+                    if (Methods.areNotificationsEnabled(getApplicationContext()))
+                        Job.schedule(getApplicationContext(), getPackageName());
+                    preference.setSummary(mPreferences.getString("pref_username", "Genscher"));
+                    preferenceChanged = true;
                     return true;
                 }
             }
         });
 
-        Preference preferencePassword = findPreference("pref_password");
+        Preference preferencePassword = findPreference(Constants.passwordKey);
         preferencePassword.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -111,12 +107,14 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                     return false;
                 }
                 saveChangedValueToSharedPreferences(preference, newValue);
-                preferenceChange = true;
+                if (Methods.areNotificationsEnabled(getApplicationContext()))
+                    Job.schedule(getApplicationContext(), getPackageName());
+                preferenceChanged = true;
                 return true;
             }
         });
 
-        Preference preferenceNotif = findPreference("pref_notifications_enabled");
+        Preference preferenceNotif = findPreference(Constants.notificationsKey);
         preferenceNotif.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -131,7 +129,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
             }
         });
 
-        Preference preferenceInterval = findPreference("pref_sync_interval");
+        Preference preferenceInterval = findPreference(Constants.syncIntervalKey);
         preferenceInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -157,7 +155,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
             }
         });
 
-        Preference preferenceNetworkType = findPreference("pref_network_type");
+        Preference preferenceNetworkType = findPreference(Constants.networkTypeKey);
         preferenceNetworkType.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -178,12 +176,6 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.pref_menu, menu);
-        return true;
-    }
-
 
     /**
      * Called by the system when the user selects an item on the action bar.
@@ -195,12 +187,9 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.resetSettings:
-                fireAlertDialog();
-                return true;
             case android.R.id.home:
-                if (preferenceChange) {
-                    restartMainActivity();
+                if (preferenceChanged) {
+                    reloadToMainActivity();
                 } else {
                     onBackPressed();
                 }
@@ -223,13 +212,26 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            if (preferenceChange) {
-                restartMainActivity();
+            if (preferenceChanged) {
+                reloadToMainActivity();
             } else {
                 onBackPressed();
             }
         }
         return true;
+    }
+
+
+    /**
+     * Overrides the default back event for custom handling.
+     */
+    @Override
+    public void onBackPressed() {
+        if (preferenceChanged) {
+            reloadToMainActivity();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -246,55 +248,15 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
 
 
     /**
-     * Shows an Alert Dialog to the user in which he can reset the settings or cancel this action.
-     */
-    private void fireAlertDialog() {
-        if (!isFinishing()) {
-            AlertDialog.Builder builder;
-
-            builder = new AlertDialog.Builder(this);
-
-            builder.setTitle("Einstellungen zurücksetzen")
-                    .setMessage("Bist du sicher, dass du die Einstellungen zurücksetzen möchtest?")
-                    .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            resetSettings();
-                            recreate();
-                        }
-                    })
-                    .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .show();
-        }
-    }
-
-
-    /**
      * Starts an intent to the MainActivity from PrefsActivity so that the settings affecting
      * the WebView will take effect.
      */
-    private void restartMainActivity() {
+    private void reloadToMainActivity() {
         Intent intent = new Intent(PrefsActivity.this, MainActivity.class);
         finish();
         overridePendingTransition(0, 0);
         startActivity(intent);
         overridePendingTransition(0, 0);
-    }
-
-
-    /**
-     * Resets the SharedPreferences and therefore the settings to the default values.
-     */
-    private void resetSettings() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-        preferenceChange = true;
     }
 
 
@@ -322,7 +284,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
      */
     private void initSummary(Preference p) {
         String key = p.getKey();
-        if (key.equals("pref_username") || key.equals("pref_sync_interval") || key.equals("pref_network_type")) {
+        if (key.equals(Constants.usernameKey) || key.equals(Constants.syncIntervalKey) || key.equals(Constants.networkTypeKey)) {
             if (p instanceof EditTextPreference) {
                 EditTextPreference editTextPref = (EditTextPreference) p;
                 p.setSummary(editTextPref.getText());
@@ -345,7 +307,7 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
      * @param newValue Value to be saved
      */
     private void saveChangedValueToSharedPreferences(Preference p, Object newValue) {
-        editor = preferences.edit();
+        SharedPreferences.Editor editor = mPreferences.edit();
         String key = p.getKey();
         if (p instanceof SwitchPreference) {
             editor.putBoolean(key, (boolean) newValue);

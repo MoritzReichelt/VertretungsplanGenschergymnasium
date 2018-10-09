@@ -11,11 +11,10 @@
     <string name="pref_url_default">http://planung.hdg-gymnasium.de/plan/vplan.xml</string>
     <string name="pref_notifications_enabled_key">pref_notifications_enabled</string>
     <string name="about_name">Diese App wurde 2018 von Moritz Reichelt im Rahmen einer Facharbeit erstellt.</string>
-    <string name="about_license">Diese App ist unter der GNU General Public License 3 lizensiert.</string>
+    <string name="about_license">Die App ist unter der GNU General Public License 3 lizensiert.</string>
     <string name="about_button_see_license">Lizenz ansehen</string>
     <string name="about_code">Der Quellcode ist frei verfügbar und kann auf GitHub eingesehen werden.</string>
     <string name="about_button_see_code">Quellcode ansehen</string>
-    <string name="menu_reset_settings">Einstellungen zurücksetzen</string>
     <string name="changed_plan_description">Sendet eine Benachrichtigung bei neuem Vertretungsplan</string>
     <string name="changed_plan_name">Vertretungsplan-Benachrichtigungen</string>
     <string name="notification_channel_id">Channel_1</string>
@@ -27,22 +26,28 @@
     <string name="pref_username_default">Genscher</string>
     <string name="pref_password_default">Schule</string>
     <string name="notif_title">Neuer Vertretungsplan!</string>
+    <string name="login_welcome">Willkommen!</string>
+    <string name="login_description">Bitte gib einmalig Benutzername und Passwort des Vertretungsplans ein, um dich zu authentifizieren. Du kannst beides später in den Einstellungen ändern.</string>
+    <string name="login_username">Benutzername:</string>
+    <string name="login_password">Passwort:</string>
+    <string name="login_mode">Modus:</string>
+    <string name="login_button_confirm">Los geht\'s!</string>
+    <string name="login_edit_text_hint">Benutzername</string>
+    <string name="login_password_hint">Passwort</string>
 
     <!-- Einstellungen - Arrays -->
 
     <string-array name="pref_sync_frequency_entries">
-        <item>15 Minuten</item>
-        <item>30 Minuten</item>
-        <item>1 Stunde</item>
-        <item>2 Stunden</item>
-        <item>3 Stunden</item>
+        <item>Alle 15 Minuten</item>
+        <item>Alle 30 Minuten</item>
+        <item>Jede Stunde</item>
+        <item>Alle 2 Stunden</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
         <item>15</item>
         <item>30</item>
         <item>60</item>
         <item>120</item>
-        <item>180</item>
     </string-array>
 
     <string-array name="pref_network_type_entries">
@@ -53,6 +58,11 @@
     <string-array name="pref_network_type_values">
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="spinner_entries">
+        <item>Schüler</item>
+        <item>Lehrer</item>
     </string-array>
 
 </resources>

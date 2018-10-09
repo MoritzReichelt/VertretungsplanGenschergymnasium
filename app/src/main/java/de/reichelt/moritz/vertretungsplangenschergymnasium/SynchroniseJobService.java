@@ -54,8 +54,6 @@ public class SynchroniseJobService extends JobService {
             @Override
             public void run() {
 
-                pause(2000);
-
                 if (canPingGoogle()) {
 
                     path = Methods.getFilePath(getApplicationContext());
@@ -154,7 +152,7 @@ public class SynchroniseJobService extends JobService {
 
                                 if (Objects.equals(file1Date, file2Date)) {
                                     Log.i(TAG, "A changed plan is available!");
-                                    sendNotificationWhenPlanChanged();
+                                    //sendNotificationWhenPlanChanged();
                                 } else {
                                     Log.i(TAG, "A new plan is available!");
                                     sendNotificationWhenNewPlan(fileContentTemp);
@@ -513,14 +511,6 @@ public class SynchroniseJobService extends JobService {
         boolean success = file.delete();
         startMediaScanner();
         return success;
-    }
-    private void pause(int ms){
-        Log.i(TAG,"Sleeping for " + ms + " ms");
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
 

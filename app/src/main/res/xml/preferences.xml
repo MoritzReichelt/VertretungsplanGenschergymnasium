@@ -43,13 +43,13 @@
             android:entries="@array/pref_sync_frequency_entries"
             android:entryValues="@array/pref_sync_frequency_values"
             android:key="pref_sync_interval"
-            android:title="Aktualisierungsintervall festlegen" />
+            android:title="Intervall für Aktualisierung" />
         <ListPreference
             android:defaultValue="1"
             android:dependency="@string/pref_notifications_enabled_key"
             android:entries="@array/pref_network_type_entries"
             android:entryValues="@array/pref_network_type_values"
             android:key="pref_network_type"
-            android:title="Netzwerk festlegen" />
+            android:title="Netzwerk" />
     </PreferenceCategory>
 </PreferenceScreen>
