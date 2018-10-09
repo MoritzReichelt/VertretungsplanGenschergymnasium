@@ -121,21 +121,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (outState == null) {
-            webView.saveState(outState);
-        }
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState == null) {
-            webView.restoreState(savedInstanceState);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
