@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
                 public void onReceivedHttpAuthRequest(WebView view,
                                                       HttpAuthHandler handler, String host, String realm) {
-
                     handler.proceed(username, password);
                 }
 
