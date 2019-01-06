@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import static android.support.constraint.Constraints.TAG;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private String password;
     private WebView webView;
     private boolean receivedError = false;
+    private int textZoom = 70;
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -33,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             //Initialisiere das Refresh Layout
-            final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+            swipeRefreshLayout = findViewById(R.id.swipe);
 
             //Hole Anmeldedaten aus den SharedPrefs
             final String url = mPreferences.getString(Constants.urlKey, getString(R.string.pref_url_default));
@@ -50,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             webSettings.setSupportZoom(true);
             webSettings.setLoadWithOverviewMode(true);
             webSettings.setUseWideViewPort(stretchScreen); //True, um die Seite auf den gesamten Bildschirm zu strecken
-            webSettings.setTextZoom(10);
+            webSettings.setTextZoom(textZoom);
             webSettings.setMinimumFontSize(8);
 
             if (useCache) {
@@ -94,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+
             });
 
             if (savedInstanceState == null) {
-                webSettings.setTextZoom(10);
+                webSettings.setTextZoom(textZoom);
                 webView.loadUrl(url);
             }
 
@@ -105,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    webSettings.setTextZoom(10);
+                    webSettings.setTextZoom(textZoom);
                     webView.loadUrl(url);
                 }
             });
