@@ -36,7 +36,7 @@ class Job {
                 .setPersisted(true)
                 .setRequiredNetworkType(network_type)
                 .setPeriodic(interval * 60000)
-                .setBackoffCriteria(60000, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+                .setBackoffCriteria(60000, JobInfo.BACKOFF_POLICY_LINEAR);
 
         JobInfo jobInfo = builder.build();
 

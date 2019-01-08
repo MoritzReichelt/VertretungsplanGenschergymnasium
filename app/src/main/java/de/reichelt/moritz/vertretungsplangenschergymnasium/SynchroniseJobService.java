@@ -54,35 +54,33 @@ public class SynchroniseJobService extends JobService {
             @Override
             public void run() {
 
-                if (canPingGoogle()) {
-
-                    path = Methods.getFilePath(getApplicationContext());
+                path = Methods.getFilePath(getApplicationContext());
 
                 /* Wenn noch kein Vergleichs-VPlan im Ordner ist, wird dieser erstellt und
                 ein VPlan heruntergeladen (normalerweise nur nach Erstinstallation der Fall)
                  */
-                    if (isDirEmpty(path)) {
-                        Log.i(TAG, "Directory is empty");
-                        createDir(path);
-                        Methods.downloadPlan(getApplicationContext(), path);
-                    }
+                if (isDirEmpty(path)) {
+                    Log.i(TAG, "Directory is empty");
+                    createDir(path);
+                    Methods.downloadPlan(getApplicationContext(), path);
+                }
 
-                    deleteInvalidFilesIfPresent(path);
+                deleteInvalidFilesIfPresent(path);
 
-                    File dir = new File(path);
-                    File[] allFiles;
+                File dir = new File(path);
+                File[] allFiles;
 
-                    int amountOfFiles = dir.listFiles().length;
-                    if (amountOfFiles == 0) {
-                        Log.i(TAG, "The directory seems to be empty, no plan in sight!");
-                        Methods.downloadPlan(getApplicationContext(), path);
-                    } else if (amountOfFiles > 1) {
-                        Log.i(TAG, "Directory contains " + amountOfFiles + " files and therefore the content will be reduced" +
-                                " to one file");
-                        allFiles = dir.listFiles();
-                        allFiles = sortFileArrayLastModified(allFiles);
-                        Methods.reduceDirContent(allFiles, 1);
-                    }
+                int amountOfFiles = dir.listFiles().length;
+                if (amountOfFiles == 0) {
+                    Log.i(TAG, "The directory seems to be empty, no plan in sight!");
+                    Methods.downloadPlan(getApplicationContext(), path);
+                } else if (amountOfFiles > 1) {
+                    Log.i(TAG, "Directory contains " + amountOfFiles + " files and therefore the content will be reduced" +
+                            " to one file");
+                    allFiles = dir.listFiles();
+                    allFiles = sortFileArrayLastModified(allFiles);
+                    Methods.reduceDirContent(allFiles, 1);
+                }
 
                 /*
                   Lädt den Vertretungsplan herunter
@@ -90,17 +88,17 @@ public class SynchroniseJobService extends JobService {
                   Benennt die .xml Datei nach der aktuellen Uhrzeit
                  */
 
-                    Methods.downloadPlan(getApplicationContext(), path);
+                Methods.downloadPlan(getApplicationContext(), path);
 
-                    deleteInvalidFilesIfPresent(path);
+                deleteInvalidFilesIfPresent(path);
 
-                    amountOfFiles = dir.listFiles().length;
-                    if (amountOfFiles <= 1) {
-                        Log.i(TAG, "Directory does not contain enough plans to compare (only " + amountOfFiles + " file(s))");
-                        Log.i(TAG, "Calling jobFinished(), reschedule will be executed...");
-                        jobFinished(jobParameters, true);
-                    } else {
-                        Log.i(TAG, "Directory contains 2 valid files, we're good to go!");
+                amountOfFiles = dir.listFiles().length;
+                if (amountOfFiles <= 1) {
+                    Log.i(TAG, "Directory does not contain enough plans to compare (only " + amountOfFiles + " file(s))");
+                    Log.i(TAG, "Calling jobFinished(), reschedule will be executed...");
+                    jobFinished(jobParameters, true);
+                } else {
+                    Log.i(TAG, "Directory contains 2 valid files, we're good to go!");
 
                 /*
                   Ermittelt die beiden Dateien im Ordner Documents
@@ -108,19 +106,19 @@ public class SynchroniseJobService extends JobService {
                   Generiert daraus einen MD5-Hash
                  */
 
-                        allFiles = dir.listFiles();
-                        allFiles = sortFileArrayLastModified(allFiles);
+                    allFiles = dir.listFiles();
+                    allFiles = sortFileArrayLastModified(allFiles);
 
-                        file1 = allFiles[0];
-                        file2 = allFiles[1];
+                    file1 = allFiles[0];
+                    file2 = allFiles[1];
 
-                        Log.i(TAG, "The following files are being compared: '" + file1.toString() + "' and '" + file2.toString() + "'");
+                    Log.i(TAG, "The following files are being compared: '" + file1.toString() + "' and '" + file2.toString() + "'");
 
-                        String file1MD5 = calculateMD5(file1);
-                        String file2MD5 = calculateMD5(file2);
+                    String file1MD5 = calculateMD5(file1);
+                    String file2MD5 = calculateMD5(file2);
 
-                        Log.i(TAG, "File 1 has MD5-Hash: " + file1MD5);
-                        Log.i(TAG, "File 2 has MD5-Hash: " + file2MD5);
+                    Log.i(TAG, "File 1 has MD5-Hash: " + file1MD5);
+                    Log.i(TAG, "File 2 has MD5-Hash: " + file2MD5);
 
                     /*Vergleicht die Hashes der beiden Dateien
                       Wenn sie verschieden voneinander sind, wird jeweils die ältere Datei gelöscht
@@ -128,8 +126,8 @@ public class SynchroniseJobService extends JobService {
                       Wenn die Hashes gleich sind, wird eine der beiden Dateien gelöscht
                      */
 
-                        //Ein neuer VPlan ist verfügbar!
-                        if (!Objects.equals(file1MD5, file2MD5)) {
+                    //Ein neuer VPlan ist verfügbar!
+                    if (!Objects.equals(file1MD5, file2MD5)) {
 
                         /*
                           Extrahiert das Datum aus der .xml-Datei
@@ -138,51 +136,46 @@ public class SynchroniseJobService extends JobService {
                           fileDateRight = "16. April 2018"
                          */
 
-                            fileContentTemp = Methods.getStringFromFile(file2);
+                        fileContentTemp = Methods.getStringFromFile(file2);
 
-                            if (fileContentTemp != null) {
-                                String file1String = Methods.getStringFromFile(file1);
-                                String file2String = Methods.getStringFromFile(file2);
+                        if (fileContentTemp != null) {
+                            String file1String = Methods.getStringFromFile(file1);
+                            String file2String = Methods.getStringFromFile(file2);
 
-                                String file1Date = getLeftDateFromFile(Objects.requireNonNull(file1String));
-                                String file2Date = getLeftDateFromFile(Objects.requireNonNull(file2String));
+                            String file1Date = getLeftDateFromFile(Objects.requireNonNull(file1String));
+                            String file2Date = getLeftDateFromFile(Objects.requireNonNull(file2String));
 
-                                Log.i(TAG, "File 1 has date: " + file1Date);
-                                Log.i(TAG, "File 2 has date: " + file2Date);
+                            Log.i(TAG, "File 1 has date: " + file1Date);
+                            Log.i(TAG, "File 2 has date: " + file2Date);
 
-                                if (Objects.equals(file1Date, file2Date)) {
-                                    Log.i(TAG, "A changed plan is available!");
-                                    //sendNotificationWhenPlanChanged();
-                                } else {
-                                    Log.i(TAG, "A new plan is available!");
-                                    sendNotificationWhenNewPlan(fileContentTemp);
-                                }
+                            if (Objects.equals(file1Date, file2Date)) {
+                                Log.i(TAG, "A changed plan is available!");
+                                //sendNotificationWhenPlanChanged();
                             } else {
-                                errorOccurred = true;
-                                Log.e(TAG, "Error: fileContentTemp is null, meaning there was an error" +
-                                        "while reading the file into a string!");
+                                Log.i(TAG, "A new plan is available!");
+                                sendNotificationWhenNewPlan(fileContentTemp);
                             }
-                            //Lösche die ältere Datei
-
-                            if (FileUtils.isFileNewer(file1, file2)) {
-                                success = deleteFile(file2);
-                            } else {
-                                success = deleteFile(file1);
-                            }
+                        } else {
+                            errorOccurred = true;
+                            Log.e(TAG, "Error: fileContentTemp is null, meaning there was an error" +
+                                    "while reading the file into a string!");
                         }
-                        //Kein neuer Vertretungsplan verfügbar
-                        else {
-                            Log.i(TAG, "No new plan!");
+                        //Lösche die ältere Datei
+
+                        if (FileUtils.isFileNewer(file1, file2)) {
                             success = deleteFile(file2);
+                        } else {
+                            success = deleteFile(file1);
                         }
                     }
-                    Log.i(TAG, "Calling jobFinished, no reschedule needed...");
-                    jobFinished(jobParameters, false);
-                } // Google DNS konnte nicht angepingt werden
-                else {
-                    Log.i(TAG, "Calling jobFinished, reschedule will be executed...");
-                    jobFinished(jobParameters, true);
+                    //Kein neuer Vertretungsplan verfügbar
+                    else {
+                        Log.i(TAG, "No new plan!");
+                        success = deleteFile(file2);
+                    }
                 }
+                Log.i(TAG, "Calling jobFinished, no reschedule needed...");
+                jobFinished(jobParameters, false);
             }
         });
 
@@ -361,7 +354,7 @@ public class SynchroniseJobService extends JobService {
     /**
      * Sends a notification to the user informing him about an updated vplan.
      */
-    private void sendNotificationWhenPlanChanged() {
+    private void sendNotificationWhenJobExecuted() {
         //PendingIntent sorgt dafür, dass die App startet, wenn die Benachrichtigung angeklickt wird
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -385,11 +378,11 @@ public class SynchroniseJobService extends JobService {
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(mChannel);
         }
-        String text = getString(R.string.changed_plan_text);
+        String text = "Job wurde ausgeführt!";
         //Erstellt die eigentliche Benachrichtigung
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
                 .setSmallIcon(R.drawable.ic_job_plan)
-                .setContentTitle(getString(R.string.notif_title))
+                .setContentTitle("Job")
                 .setContentText(text)
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true);
@@ -434,37 +427,10 @@ public class SynchroniseJobService extends JobService {
         if (fileString != null) {
             isValid = (fileString.contains("Montag") || fileString.contains("Dienstag")
                     || fileString.contains("Mittwoch") || fileString.contains("Donnerstag")
-                    || fileString.contains("Freitag")) & fileString.contains("<titel>") & fileString.contains("</titel>");
+                    || fileString.contains("Freitag")) & fileString.contains("<titel>") & fileString.contains("</titel>")
+                    & fileString.contains("</vp>");
         }
         return isValid;
-    }
-
-
-    /**
-     * Another safety method - checks whether or not the Google DNS can be pinged. This is needed
-     * because sometimes Android thinks the device is connected to a network and runs the job, even
-     * if it does not really have internet access.
-     *
-     * @return Boolean indicating whether or not Google DNS could be reached
-     */
-    private boolean canPingGoogle() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Log.i(TAG, "Trying to ping IP address " + "8.8.8.8");
-            Process process = runtime.exec("/system/bin/ping -c 1 " + "8.8.8.8");
-            int exitValue = process.waitFor();
-            Log.i(TAG, "Exit value: " + exitValue);
-            if (exitValue == 0) {
-                Log.i(TAG, "Ping was successful");
-                return true;
-            } else {
-                return false;
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e(TAG, "Failed to ping IP address " + "8.8.8.8");
-        return false;
     }
 
 
