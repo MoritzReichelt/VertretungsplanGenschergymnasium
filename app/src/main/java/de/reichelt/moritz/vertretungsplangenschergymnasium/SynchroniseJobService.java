@@ -352,48 +352,6 @@ public class SynchroniseJobService extends JobService {
 
 
     /**
-     * Sends a notification to the user informing him about an updated vplan.
-     */
-    private void sendNotificationWhenJobExecuted() {
-        //PendingIntent sorgt dafür, dass die App startet, wenn die Benachrichtigung angeklickt wird
-        PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String channel_id = getString(R.string.notification_channel_id);
-        int id = 1;
-        CharSequence name = getString(R.string.changed_plan_name);
-        String description = getString(R.string.changed_plan_description);
-        int importance = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            importance = NotificationManager.IMPORTANCE_DEFAULT;
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            //Erstellt den NotificationChannel für Geräte mit Android >= 8.0
-            NotificationChannel mChannel = new NotificationChannel(channel_id, name, importance);
-            mChannel.setDescription(description);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.rgb(246, 116, 28));
-            assert mNotificationManager != null;
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
-        String text = "Job wurde ausgeführt!";
-        //Erstellt die eigentliche Benachrichtigung
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
-                .setSmallIcon(R.drawable.ic_job_plan)
-                .setContentTitle("Job")
-                .setContentText(text)
-                .setContentIntent(contentPendingIntent)
-                .setAutoCancel(true);
-
-        assert mNotificationManager != null;
-        mNotificationManager.notify(id, mBuilder.build());
-        Log.i(TAG, "Sent notification for changed plan!");
-    }
-
-
-    /**
      * Gets the left date from a vplan file, like 'Montag' or 'Dienstag'.
      *
      * @param fileContent String containing the file

@@ -23,15 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /*
-        Spinner dropdown = findViewById(R.id.dropdownSpinner);
-
-        String[] items = {"Schüler","Lehrer"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, items);
-        dropdown.setAdapter(adapter);
-
-        */
-
         Button loginConfirm = findViewById(R.id.loginConfirm);
         final EditText loginUsername = findViewById(R.id.loginUsername);
         final EditText loginPassword = findViewById(R.id.loginPassword);

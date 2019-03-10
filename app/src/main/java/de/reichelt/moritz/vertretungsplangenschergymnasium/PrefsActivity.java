@@ -122,59 +122,65 @@ public class PrefsActivity extends AppCompatPreferenceActivity {
                 saveChangedValueToSharedPreferences(preference, newValue);
                 if (enabled) {
                     Job.schedule(getApplicationContext(), getPackageName());
-                } else {
-                    Job.cancel();
-                }
-                return true;
+            } else
+
+            {
+                Job.cancel();
             }
-        });
-
-        Preference preferenceInterval = findPreference(Constants.syncIntervalKey);
-        preferenceInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                int value = Integer.valueOf(newValue.toString());
-                saveChangedValueToSharedPreferences(preference, newValue);
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(newValue.toString());
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-                Job.schedule(getApplicationContext(), getPackageName());
-
-                float usedDataTemp = 8 * (8 / ((float) value / 60));
-                int usedData = (int) usedDataTemp;
-
-                Toast.makeText(PrefsActivity.this, "Dies wird ca. " + String.valueOf(usedData)
-                        + " KByte an Daten pro Tag verbrauchen, wenn du dein Handy 8h benutzt.", Toast.LENGTH_LONG).show();
                 return true;
-            }
-        });
+        }
+    });
 
-        Preference preferenceNetworkType = findPreference(Constants.networkTypeKey);
-        preferenceNetworkType.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                saveChangedValueToSharedPreferences(preference, newValue);
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(newValue.toString());
+    Preference preferenceInterval = findPreference(Constants.syncIntervalKey);
+        preferenceInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
 
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
+    {
+        @Override
+        public boolean onPreferenceChange (Preference preference, Object newValue){
+        int value = Integer.valueOf(newValue.toString());
+        saveChangedValueToSharedPreferences(preference, newValue);
+        ListPreference listPreference = (ListPreference) preference;
+        int index = listPreference.findIndexOfValue(newValue.toString());
 
-                Job.schedule(getApplicationContext(), getPackageName());
+        // Set the summary to reflect the new value.
+        preference.setSummary(
+                index >= 0
+                        ? listPreference.getEntries()[index]
+                        : null);
 
-                return true;
-            }
-        });
+        Job.schedule(getApplicationContext(), getPackageName());
+
+        float usedDataTemp = 8 * (8 / ((float) value / 60));
+        int usedData = (int) usedDataTemp;
+
+        Toast.makeText(PrefsActivity.this, "Dies wird ca. " + String.valueOf(usedData)
+                + " KByte an Daten pro Tag verbrauchen, wenn du dein Handy 8h benutzt.", Toast.LENGTH_LONG).show();
+        return true;
     }
+    });
+
+    Preference preferenceNetworkType = findPreference(Constants.networkTypeKey);
+        preferenceNetworkType.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
+
+    {
+        @Override
+        public boolean onPreferenceChange (Preference preference, Object newValue){
+        saveChangedValueToSharedPreferences(preference, newValue);
+        ListPreference listPreference = (ListPreference) preference;
+        int index = listPreference.findIndexOfValue(newValue.toString());
+
+        // Set the summary to reflect the new value.
+        preference.setSummary(
+                index >= 0
+                        ? listPreference.getEntries()[index]
+                        : null);
+
+        Job.schedule(getApplicationContext(), getPackageName());
+
+        return true;
+    }
+    });
+}
 
 
     /**

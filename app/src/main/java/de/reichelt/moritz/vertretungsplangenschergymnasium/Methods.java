@@ -2,6 +2,8 @@ package de.reichelt.moritz.vertretungsplangenschergymnasium;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
@@ -73,10 +75,11 @@ class Methods {
 
     /**
      * Gets if the user has enabled notifications
+     *
      * @param context Application context
      * @return Boolean indicating whether or not the user has enabled notifications
      */
-    static boolean areNotificationsEnabled(Context context){
+    static boolean areNotificationsEnabled(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(Constants.notificationsKey, false);
     }
@@ -155,10 +158,11 @@ class Methods {
 
     /**
      * Gets the file path where all the plans are stored.
+     *
      * @param context Application context
      * @return String with the full file path
      */
-    static String getFilePath(Context context){
+    static String getFilePath(Context context) {
         return context.getFilesDir().toString() + "/plans/";
     }
 }
