@@ -1,5 +1,5 @@
 # Vertretungsplan Genschergymnasium
-![](https://img.shields.io/github/StardOva/VertretungsplanGenschergymnasium/releases.svg)
+![](https://img.shields.io/github/license/StardOva/VertretungsplanGenschergymnasium.svg)
 ## Motivation
 Bist du es leid, jedesmal umständlich deinen Browser zu öffnen, das Lesezeichen zum Vertretungsplan anzuklicken und Benutzername & Passwort eingeben zu müssen, um den Vertretungsplan anzusehen? Dann ist diese App genau das Richtige für dich!
 ## Funktionen
