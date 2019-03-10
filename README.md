@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png">
+   <img src="https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png">
 
 # Vertretungsplan Genschergymnasium 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -13,7 +13,7 @@ Bist du es leid, jedesmal umständlich deinen Browser zu öffnen, das Lesezeiche
 * Anpassung der Darstellung z.B. an Tablets
 * Offline-Abruf 
 ## Download
-Die neueste Version 1.8 kann [hier](https://github.com/StardOva/VertretungsplanGenschergymnasium/releases) heruntergeladen werden. Dazu muss in den Einstellungen -> Sicherheit die "Installation von Apps aus unbekannten Quellen" erlaubt sein.
+Die neueste Version 1.8 kann [hier](https://github.com/StardOva/VertretungsplanGenschergymnasium/releases/download/v1.9/Vertretungsplan-v1.9.apk) heruntergeladen werden. Dazu muss in den Einstellungen -> Sicherheit die "Installation von Apps aus unbekannten Quellen" erlaubt sein.
 ## Bekannte Probleme
 In neueren Versionen (ab 6.0) behandelt Android Apps immer restriktiver und verhindert die Ausführung im Hintergrund, um Energie zu sparen. Bei manchen Apps ist das durchaus sinnvoll, doch leider bringt es auch Probleme mit sich:
 Die Benachrichtigung für einen neuen Vertretungsplan erscheint nicht immer. Um das Problem zu beheben, kann man - je nach Android-Version - die App in den Einstellungen auf "nicht optimiert" stellen:
