@@ -1,6 +1,7 @@
 # Vertretungsplan Genschergymnasium
  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/github/languages/code-size/StardOva/VertretungsplanGenschergymnasium.svg)
+![Platform: Android 5.0](https://img.shields.io/badge/coolness-high-green.svg)
 ## Motivation
 Bist du es leid, jedesmal umständlich deinen Browser zu öffnen, das Lesezeichen zum Vertretungsplan anzuklicken und Benutzername & Passwort eingeben zu müssen, um den Vertretungsplan anzusehen? Dann ist diese App genau das Richtige für dich!
 ## Funktionen
