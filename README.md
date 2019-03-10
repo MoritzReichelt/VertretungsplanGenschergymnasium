@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png">
+   <img src="https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png">
 
 # Vertretungsplan Genschergymnasium 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
