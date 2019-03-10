@@ -29,7 +29,7 @@ public class AboutActivity extends AppCompatActivity {
         viewCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewCode = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/StardOva/VertretungsplanGenschergymnasium"));
+                Intent viewCode = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/README.md"));
                 startActivity(viewCode);
             }
         });
