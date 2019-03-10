@@ -1,5 +1,5 @@
-# Vertretungsplan Genschergymnasium ![](https://github.com/StardOva/VertretungsplanGenschergymnasium/blob/master/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
- [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+# Vertretungsplan Genschergymnasium 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/github/languages/code-size/StardOva/VertretungsplanGenschergymnasium.svg)
 ![Platform: Android 5.0](https://img.shields.io/badge/Platform%3A-Android%205.0-success.svg)
 ## Motivation
