@@ -9,7 +9,8 @@ Bist du es leid, jedesmal umständlich deinen Browser zu öffnen, das Lesezeiche
 ## Download
 Die neueste Version 1.8 kann [hier](https://github.com/StardOva/VertretungsplanGenschergymnasium/releases) heruntergeladen werden. Dazu muss in den Einstellungen -> Sicherheit die "Installation von Apps aus unbekannten Quellen" erlaubt sein.
 ## Bekannte Probleme
-Die Benachrichtigungen funktionieren manchmal nicht, da Android die App nicht im Hintergrund startet, wodurch Energie gespart werden soll.  Um das Problem zu beheben, kann man - je nach Android-Version - die App in den Einstellungen auf "nicht optimiert" stellen:
+In neueren Versionen (ab 6.0) behandelt Android Apps immer restriktiver und verhindert die Ausführung im Hintergrund, um Energie zu sparen. Bei manchen Apps ist das durchaus sinnvoll, doch leider bringt es auch Probleme mit sich:
+Die Benachrichtigung für einen neuen Vertretungsplan erscheint nicht immer. Um das Problem zu beheben, kann man - je nach Android-Version - die App in den Einstellungen auf "nicht optimiert" stellen:
 1. Vor Android 8:
    1. Akku 
    1. Akku-Optimierung (je nach Gerät z.B. oben rechts über das Dreipunkte-Menü)
